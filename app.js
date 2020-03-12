@@ -2,13 +2,21 @@ var express = require("express");
 var app = express();
 var path = require('path');
 
+const db = require('db')
+db.connect({
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS
+})
+
+
 app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
     res.render('index')
   });
   
   app.listen(3000, function(){
-      console.log("server runt op poort 3000");
+      console.log("poort 3000");
   });
 
   app.get('/about', function (req, res) {
