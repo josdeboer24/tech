@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matchen</title>
-    <link rel="stylesheet" type="text/css" href="/public/style.css" />
+    <link href= "/public/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <h1>Welkom
-    </h1>
-    <fieldset>
+    <h1>Welkom</h1>
+    <form method="POST">
         <legend>Log in bij je bestaande account</legend>
+        <fieldset>
         <label for="email">E-mail</label>
         <input type="text" placeholder="Jouw e-mailadres">
-        <label for="wachtwoord">wachtwoord</label>
-        <input type="text" placeholder="Jouw wachtwoord">
-        <a href="">wachtwoord vergeten?</a>
-        <button type="submit">Log in</button>
     </fieldset>
+    <fieldset>
+        <label for="wachtwoord">wachtwoord</label>
+        <input type="password" placeholder="Jouw wachtwoord">
+        <a href="">wachtwoord vergeten?</a>
+    </fieldset>
+        <button type="submit">Log in</button>
+    </form>
     <h2>Nog geen account?</h2>
     <a href="">Registreren</a>
 </body>
