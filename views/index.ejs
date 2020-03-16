@@ -7,21 +7,23 @@
     <link href= "/public/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <h1>Welkom</h1>
+    <h1>Welkom!</h1>
     <form method="POST" action="/sign_up">
         <legend>Log in bij je bestaande account</legend>
         <fieldset>
         <label for="email">E-mail</label>
-        <input type="text" placeholder="Jouw e-mailadres" name="email" required/>
+        <input type="text" placeholder="Jouw e-mailadres" name="email"/>
     </fieldset>
     <fieldset>
         <label for="wachtwoord">wachtwoord</label>
-        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord" requierd/>
+        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord"/>
         <a href="">wachtwoord vergeten?</a>
     </fieldset>
         <button type="submit">Log in</button>
     </form>
     <h2>Nog geen account?</h2>
     <a href="">Registreren</a>
+    <script src="/public/app.js"></script>
 </body>
 </html>
+
