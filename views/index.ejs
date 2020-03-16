@@ -8,15 +8,15 @@
 </head>
 <body>
     <h1>Welkom</h1>
-    <form method="POST">
+    <form method="POST" action="/sign_up">
         <legend>Log in bij je bestaande account</legend>
         <fieldset>
         <label for="email">E-mail</label>
-        <input type="text" placeholder="Jouw e-mailadres">
+        <input type="text" placeholder="Jouw e-mailadres" name="email" required/>
     </fieldset>
     <fieldset>
         <label for="wachtwoord">wachtwoord</label>
-        <input type="password" placeholder="Jouw wachtwoord">
+        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord" requierd/>
         <a href="">wachtwoord vergeten?</a>
     </fieldset>
         <button type="submit">Log in</button>
