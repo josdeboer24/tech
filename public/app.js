@@ -1,9 +1,20 @@
 var express = require("express");
 var app = express();
 var path = require('path');
-require('dotenv').config()
 var bodyParser=require("body-parser");
-const mongoose  = require('mongoose')
+var mongoose  = require('mongoose')
 
 
-console.log("hoihoi");x
+var mongo = require('mongodb')
+
+require('dotenv').config()
+
+var db = null
+var url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT
+
+mongo.MongoClient.connect(url, function (err, client) {
+  if (err) throw err
+  db = client.db(process.env.DB_NAME)
+})
+
+console.log("hoihoi");
