@@ -6,7 +6,7 @@ var bodyParser=require("body-parser");
 const mongoose  = require('mongoose')
 
 app.listen(3000, function(){
-  console.log("deze server runt op poort 3000");
+  console.log("deze server runt op port 3000");
 });
 
 app.use('/public', express.static('public'));
@@ -73,22 +73,21 @@ app.use(bodyParser.urlencoded({
 })); 
 
 //formulier
+// send data to Profiles collection
+app.post("/api/newProfile", async (req, res) => {
 
-app.post('/sign_up', function(req,res){ 
-    var email =req.body.email; 
-    var ww = req.body.wachtwoord; 
-  
-    var data = { 
-        "email":email, 
-        "wachtwoord":ww, 
-    } 
-db.collection('details').insertOne(data,function(err, collection){ 
-        if (err) throw err; 
-        console.log("error"); 
-              
-          
-    return res.redirect('public/home.html'); 
-}) 
+    console.log("BODY DATA", req.body);
+    await db.collection('details').insertOne(req.body);
+    const documents = await db.collection('details').find().toArray();
+
+    console.log("DOCUMENTS", documents)
+    res.send({
+        data: documents
+    })
+    return res.redirect('public/home.html')
+})
+
+
 
   
 app.get('/',function(req,res){ 
@@ -98,4 +97,4 @@ res.set({
 return res.redirect('index.html'); 
 }).listen(3000);
 
-})
+
