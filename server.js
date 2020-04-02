@@ -55,8 +55,6 @@ main().catch(console.error);
 
 async function listDatabases(client){
     databasesList = await client.db().admin().listDatabases();
- 
-    console.log("Databases:");
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
 
@@ -74,27 +72,49 @@ app.use(bodyParser.urlencoded({
 
 //formulier
 // send data to Profiles collection
-app.post("/api/newProfile", async (req, res) => {
 
-    console.log("BODY DATA", req.body);
-    await db.collection('details').insertOne(req.body);
-    const documents = await db.collection('details').find().toArray();
+// app.post("/api/newProfile", async (req, res) => {
 
-    console.log("DOCUMENTS", documents)
-    res.send({
-        data: documents
+//     console.log("BODY DATA", req.body);
+//     await db.collection('details').insertOne(req.body);
+//     const documents = await db.collection('details').find().toArray();
+
+//     console.log("DOCUMENTS", documents)
+//     res.send({
+//         data: documents
+//     })
+//     return res.redirect('public/home.html')
+// })
+
+
+// app.get('/',function(req,res){ 
+// res.set({ 
+//     'Access-control-Allow-Origin': '*'
+//     }); 
+// return res.redirect('index.html'); 
+// }).listen(3000);
+
+app.use("/", (req, res) => {
+    res.sendFile(__dirname + "/views/index.ejs");
+   });
+
+mongoose.Promise = global.Promise;mongoose.connect("mongodb://localhost:27017/node-demo");
+
+   var nameSchema = new mongoose.Schema({
+    email: String,
+    wachtwoord: String
+   });
+
+   var User = mongoose.model("User", nameSchema)
+
+
+app.post("/details", (req, res) => {
+    var myData = new User(req.body);
+    myData.save()
+    .then(item => {
+    res.send("item saved to database");
     })
-    return res.redirect('public/home.html')
-})
-
-
-
-  
-app.get('/',function(req,res){ 
-res.set({ 
-    'Access-control-Allow-Origin': '*'
-    }); 
-return res.redirect('index.html'); 
-}).listen(3000);
-
-
+    .catch(err => {
+    res.status(400).send("unable to save to database");
+    });
+   });

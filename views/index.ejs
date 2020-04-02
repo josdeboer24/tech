@@ -8,18 +8,14 @@
 </head>
 <body>
     <h1>Welkom!</h1>
-    <form method="POST" action="login.ejs">
+    <form method="POST" action="/details">
         <legend>Log in bij je bestaande account</legend>
-        <fieldset>
         <label for="email">E-mail</label>
-        <input type="text" placeholder="Jouw e-mailadres" name="email"/>
-    </fieldset>
-    <fieldset>
+        <input type="text" placeholder="Jouw e-mailadres" name="email" required>
         <label for="wachtwoord">wachtwoord</label>
-        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord"/>
+        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord" required>
         <a href="">wachtwoord vergeten?</a>
-    </fieldset>
-        <button type="submit">Log in</button>
+    <input type="submit" value="Inloggen">
     </form>
     <h2>Nog geen account?</h2>
     <a href="">Registreren</a>
