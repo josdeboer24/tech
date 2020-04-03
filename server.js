@@ -2,8 +2,36 @@ var express = require("express");
 var app = express();
 var path = require('path');
 require('dotenv').config()
-var bodyParser=require("body-parser");
 const mongoose  = require('mongoose')
+// var session = require("express-session")
+
+  //-----------------------test mongo-----------------------------------
+  let collection = null;
+const {MongoClient} = require('mongodb');
+
+async function main(){
+    const uri = "mongodb+srv://josdeboer24:" + process.env.DB_PASS + "@cluster0-xtp4e.azure.mongodb.net/test?retryWrites=true&w=majority"
+const client = new MongoClient(uri);
+new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    
+client.connect(function (err, client) {
+    if (err) {
+      throw err
+    }
+    db = client.db(process.env.DB_NAME);
+    collection = client.db("Cluster0").collection("details");
+  })
+  
+}
+
+//----------------einde test mongo---------------------
+
+//parser
+var bodyParser= require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//app
 
 app.listen(3000, function(){
   console.log("deze server runt op port 3000");
@@ -27,94 +55,26 @@ app.get('/', function (req, res) {
     res.status(404).send('pagina niet gevonden')
   });
 
-  //-----------------------test mongo-----------------------------------
-  const {MongoClient} = require('mongodb');
-
-async function main(){
-    const uri = "mongodb+srv://josdeboer24:" + process.env.DB_PASS + "@cluster0-xtp4e.azure.mongodb.net/test?retryWrites=true&w=majority"
-const client = new MongoClient(uri);
-new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-    
-    await client.connect();
-
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
- 
-        // Make the appropriate DB calls
-        await  listDatabases(client);
- 
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
-
-main().catch(console.error);
-
-async function listDatabases(client){
-    databasesList = await client.db().admin().listDatabases();
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};
-
-//----------------einde test mongo---------------------
 
 // start app
 
+// app.get('/allUsers', users)
+// app.get('/detail/:id/' + users._id + '', users)
+// app.get('/detail', users)
+app.post('/', add)
 
+function add(req, res, next){
+	db.collection('/details').insertOne({
+		email: req.body.email,
+		password: req.body.wachtwoord,
+	}, done)
 
-app.use(bodyParser.json()); 
-app.use(express.static('public')); 
-app.use(bodyParser.urlencoded({ 
-    extended: true
-})); 
+	function done(err, data) {
+		if (err) {
+			next(err)
+		} else {
+			res.redirect('/home.html')
+		}
+	}
+}
 
-//formulier
-// send data to Profiles collection
-
-// app.post("/api/newProfile", async (req, res) => {
-
-//     console.log("BODY DATA", req.body);
-//     await db.collection('details').insertOne(req.body);
-//     const documents = await db.collection('details').find().toArray();
-
-//     console.log("DOCUMENTS", documents)
-//     res.send({
-//         data: documents
-//     })
-//     return res.redirect('public/home.html')
-// })
-
-
-// app.get('/',function(req,res){ 
-// res.set({ 
-//     'Access-control-Allow-Origin': '*'
-//     }); 
-// return res.redirect('index.html'); 
-// }).listen(3000);
-
-app.use("/", (req, res) => {
-    res.sendFile(__dirname + "/views/index.ejs");
-   });
-
-mongoose.Promise = global.Promise;mongoose.connect("mongodb://localhost:27017/node-demo");
-
-   var nameSchema = new mongoose.Schema({
-    email: String,
-    wachtwoord: String
-   });
-
-   var User = mongoose.model("User", nameSchema)
-
-
-app.post("/details", (req, res) => {
-    var myData = new User(req.body);
-    myData.save()
-    .then(item => {
-    res.send("item saved to database");
-    })
-    .catch(err => {
-    res.status(400).send("unable to save to database");
-    });
-   });

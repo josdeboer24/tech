@@ -8,13 +8,17 @@
 </head>
 <body>
     <h1>Welkom!</h1>
-    <form method="POST" action="/details">
+    <form method="POST" action="/">
         <legend>Log in bij je bestaande account</legend>
+        <fieldset>
         <label for="email">E-mail</label>
         <input type="text" placeholder="Jouw e-mailadres" name="email" required>
+    </fieldset>
+    <fieldset>
         <label for="wachtwoord">wachtwoord</label>
         <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord" required>
         <a href="">wachtwoord vergeten?</a>
+    </fieldset>
     <input type="submit" value="Inloggen">
     </form>
     <h2>Nog geen account?</h2>
