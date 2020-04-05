@@ -97,7 +97,7 @@ client.connect(function (err, client) {
   if (err) {
     throw err
   }
-  collection = client.db("Cluster0").collection("details");
+  collection = client.db("Accounts").collection("UserDetails");
 })
 
 //routes
@@ -113,10 +113,11 @@ app
     saveUninitialized: false,
     resave: false
   }))
+  .get('/', index) 
   .get('/index', index) 
   .post('/logInData', logInData)
-  .get('/start', start)
-  // .post('/changeName', changeUserName)
+  .get('/register', register)
+  .get('/profileCreation', profileCreation)
   .get('*', notFound)
 
 //informatie declaraties
@@ -137,19 +138,14 @@ function index(req, res) {
       res.render('index.ejs')
     };
 
-    function start(req, res) {
-      res.render('hoi')
+
+function register(req, res) {
+      res.render('register.ejs')
     };
 
-//maak een functie van
-//vul data met foto's; op imageUrlX
-// function fillImages() {
-//   for (let i = 0; i < images.length; i++) {
-//     let index = "imageUrl" + (i + 1);
-//     data[index] = images[i];
-//   }
-// }
-// fillImages();
+    function profileCreation(req, res) {
+      res.render('profileCreation.ejs')
+    };
 
 //find match pagina
 // function findMatch(req, res, next) {
@@ -176,14 +172,14 @@ function logInData(req, res, next) {
   collection.insertOne({
     user: req.session.user,
     email: req.body.email,
-    wachtwoord: req.body.wachtwoord
+    password: req.body.password
   }, done);
 
   function done(err, data) {
     if (err) {
       next(err)
     } else {
-      res.redirect('/start')
+      res.redirect('/profileCreation')
     }
   }
 }

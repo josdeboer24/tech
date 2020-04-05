@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matchen</title>
-    <link href= "/public/style.css" rel="stylesheet" type="text/css" />
-</head>
+    <%- include('partials/head.ejs') %>
+    <title>index</title>
 <body>
-    <h1>Welkom!</h1>
+    <%- include('partials/header.ejs') %>
     <form method="POST" action="/logInData">
-        <legend>Log in bij je bestaande account</legend>
+        <legend>Log in to your existing account</legend>
         <fieldset>
         <label for="email">E-mail</label>
-        <input type="text" placeholder="Jouw e-mailadres" name="email" required>
+        <input type="text" placeholder="your e-mail adress" name="email" required>
     </fieldset>
     <fieldset>
-        <label for="wachtwoord">wachtwoord</label>
-        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord" required>
-        <a href="">wachtwoord vergeten?</a>
+        <label for="password">Password</label>
+        <input type="password" placeholder="your password" name="password" required>
     </fieldset>
-    <input type="submit" value="Inloggen">
+    <input type="submit" value="log in">
     </form>
-    <h2>Nog geen account?</h2>
-    <a href="">Registreren</a>
-    <script src="/public/app.js"></script>
+    <h2>Haven't got an account yet?</h2>
+    <a href="/register">Register</a>
 </body>
 </html>
 

@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matchen</title>
-    <link href= "/public/style.css" rel="stylesheet" type="text/css" />
-</head>
+    <%- include('partials/head.ejs') %>
+    <title>index</title>
 <body>
-    <h1>Account aanmaken</h1>
-    <form method="POST" action="/sign_up">
-        <legend>Log in bij je bestaande account</legend>
+    <%- include('partials/header.ejs') %>
+    <form method="POST" action="/logInData">
+        <legend>Register an account</legend>
         <fieldset>
         <label for="email">E-mail</label>
-        <input type="text" placeholder="Jouw e-mailadres" name="email"/>
+        <input type="text" placeholder="your e-mail adress" name="email" required>
     </fieldset>
     <fieldset>
-        <label for="wachtwoord">wachtwoord</label>
-        <input type="password" placeholder="Jouw wachtwoord" name="wachtwoord"/>
-        <a href="">wachtwoord vergeten?</a>
+        <label for="password">Password</label>
+        <input type="password" placeholder="your password" name="password" required>
     </fieldset>
-        <button type="submit">Log in</button>
+    <fieldset>
+        <label for="password">Repeat password</label>
+        <input type="password" placeholder="your password" name="password" required>
+    </fieldset>
+    <input type="submit" value="register">
     </form>
-    <h2>Nog geen account?</h2>
-    <a href="">Registreren</a>
-    <script src="/public/app.js"></script>
+    <h2>Already have an account?</h2>
+    <a href="/index">Login</a>
 </body>
 </html>
