@@ -114,9 +114,8 @@ app
     resave: false
   }))
   .get('/index', index) 
-  // .get('/finding', findMatch)
   .post('/logInData', logInData)
-  // .get('/matches', matchesPage)
+  .get('/start', start)
   // .post('/changeName', changeUserName)
   .get('*', notFound)
 
@@ -136,6 +135,10 @@ let data = {
 
 function index(req, res) {
       res.render('index.ejs')
+    };
+
+    function start(req, res) {
+      res.render('start.html')
     };
 
 //maak een functie van
@@ -180,7 +183,7 @@ function logInData(req, res, next) {
     if (err) {
       next(err)
     } else {
-      res.redirect('/home.html')
+      res.redirect('/start')
     }
   }
 }
