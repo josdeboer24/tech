@@ -138,7 +138,7 @@ function index(req, res) {
     };
 
     function start(req, res) {
-      res.render('start.html')
+      res.render('hoi')
     };
 
 //maak een functie van
