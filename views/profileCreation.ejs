@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
     <%- include('partials/head.ejs') %>
     <title>index</title>
 <body>
     <%- include('partials/header.ejs') %>
-    <form method="POST" action="/logInData">
+    <form method="POST" action="/makeProfile">
         <legend>Make a profile</legend>
         <fieldset>
         <label for="fName">First name</label>
@@ -15,6 +15,11 @@
         <input type="text" placeholder="your last name" name="lName" required>
     </fieldset>
     <fieldset>
+        <label for="gender">gender</label>
+        <input type="radio" value="Male" name="gender" required>
+        <input type="radio" value="Female" name="gender" required>
+    </fieldset>
+    <fieldset>
         <label for="age">Age</label>
         <input type="text" placeholder="your age" name="age" required>
     </fieldset>
@@ -22,7 +27,7 @@
         <label for="residence">Residence</label>
         <input type="text" placeholder="your city/town" name="residence" required>
     </fieldset>
-    <input type="submit" value="make account">
+    <input type="submit" value="save profile settings">
     </form>
 </body>
 </html>

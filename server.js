@@ -1,83 +1,3 @@
-// var express = require("express");
-// var app = express();
-// var path = require('path');
-// require('dotenv').config()
-// const mongoose  = require('mongoose')
-
-//   //-----------------------test mongo-----------------------------------
-// let collection = null;
-// const {MongoClient} = require('mongodb');
-
-// async function main(){
-//     const uri = "mongodb+srv://josdeboer24:" + process.env.DB_PASS + "@cluster0-xtp4e.azure.mongodb.net/test?retryWrites=true&w=majority"
-// const client = new MongoClient(uri);
-// new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-    
-// client.connect(function (err, client) {
-//     if (err) {
-//       throw err
-//     }
-//     db = client.db(process.env.DB_NAME);
-//     collection = client.db("Cluster0").collection("details");
-//   })
-  
-// }
-// let db = process.env.DB_NAME;
-
-// //----------------einde test mongo---------------------
-
-// //parser
-// var bodyParser= require("body-parser");
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-// //app
-
-// app.listen(3000, function(){
-//   console.log("deze server runt op port 3000");
-// });
-
-// app.use('/public', express.static('public'));
-
-// app.set('view engine', 'ejs');
-
-// //routes
-
-// app.get('/', function (req, res) {
-//     res.render('index')
-//   });
-  
-//   app.get('/index', function (req, res) {
-//     res.render('index')
-//   });
-
-//   app.get('*', function(req, res){
-//     res.status(404).send('pagina niet gevonden')
-//   });
-
-
-// // start app
-
-// app.post('/', add)
-
-// function add(req, res, next){
-// 	db.collection('/').insertOne({
-// 		email: req.body.email,
-// 		password: req.body.wachtwoord,
-// 	}, done)
-
-// 	function done(err, data) {
-// 		if (err) {
-// 			next(err)
-// 		} else {
-// 			res.redirect('/home.html')
-// 		}
-// 	}
-// }
-
-
-
-//------------------------------------------------------------
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -98,6 +18,7 @@ client.connect(function (err, client) {
     throw err
   }
   collection = client.db("Accounts").collection("UserDetails");
+  profiles = client.db("Profiles").collection("ProfileDetails");
 })
 
 //routes
@@ -118,17 +39,8 @@ app
   .post('/logInData', logInData)
   .get('/register', register)
   .get('/profileCreation', profileCreation)
+  .post('/makeProfile', makeProfile)
   .get('*', notFound)
-
-//informatie declaraties
-// let images = [
-//   "images/audi.jpg",
-//   "images/porsche.png",
-//   "images/mercedes.jpeg",
-//   "images/bentley.jpg",
-//   "images/ninjaBike.jpg",
-//   "images/bike.jpg"
-// ]
 
 let data = {
   title: "Datingapp"
@@ -147,28 +59,8 @@ function register(req, res) {
       res.render('profileCreation.ejs')
     };
 
-//find match pagina
-// function findMatch(req, res, next) {
-//   //delete de huidige antwoorden van de ingelogde gebruiker
-//   collection.deleteOne({
-//     user: req.session.user
-//   }, done)
 
-//   function done(err, useData) {
-//     if (err) {
-//       next(err)
-//     } else {
-//       req.session.user = "JDB";
-//       res.render('finding.ejs', {
-//         data
-//       })
-//     }
-//   }
-// }
-
-//verzenden van image op antwoorden van vraag
 function logInData(req, res, next) {
-
   collection.insertOne({
     user: req.session.user,
     email: req.body.email,
@@ -184,67 +76,23 @@ function logInData(req, res, next) {
   }
 }
 
+function makeProfile(req, res, next) {
+  profiles.insertOne({
+    firstName: req.session.fName,
+    lastName: req.body.lName,
+    gender: req.body.gender,
+    age: req.body.age,
+    residence: req.body.residence
+  }, done);
 
-//pagina waarop je je matches kunt zien
-// function matchesPage(req, res, next) {
-//   req.session.user = "SamSloot";
-//   console.log(req.session.user);
-//   collection.findOne({
-//     user: req.session.user
-//   }, done)
-
-//   function done(err, useData) {
-//     data.user = useData;
-
-//     if (err) {
-//       next(err)
-//     } else {
-//       //verkrijg de url's van de user antwoorden
-//       if (data.user.answerOne == 1) {
-//         data.user.answerOneImg = images[0]
-//       } else {
-//         data.user.answerOneImg = images[1]
-//       }
-//       if (data.user.answerTwo == 1) {
-//         data.user.answerTwoImg = images[2]
-//       } else {
-//         data.user.answerTwoImg = images[3]
-//       }
-//       if (data.user.answerThree == 1) {
-//         data.user.answerThreeImg = images[4]
-//       } else {
-//         data.user.answerThreeImg = images[5]
-//       }
-
-//       //verzamel alle users die niet gelijk zijn aan de huidige gebruiker en stop ze in een array
-//       collection.find({
-//         user: {
-//           $ne: req.session.user
-//         }
-//       }).toArray(doneTwo);
-
-//       function doneTwo(err, useData) {
-//         if (err) {
-//           throw err;
-//         } else {
-//           //push alle gebruikers met de zelfde antwoorden als jij in een array
-//           data.matches = [];
-//           for (let i = 0; i < useData.length; i++) {
-//             if (data.user.answerOne == useData[i].answerOne && data.user.answerTwo == useData[i].answerTwo &&
-//               data.user.answerThree == useData[i].answerThree) {
-//               data.matches.push(useData[i])
-//               console.log(`${useData[i].user} is toegevoegd aan matches`)
-//             }
-//           }
-//         }
-//         res.render('matches.ejs', {
-//           data
-//         });
-//       }
-//     }
-//   }
-// }
-
+  function done(err, data) {
+    if (err) {
+      next(err)
+    } else {
+      res.redirect('/profileCreation')
+    }
+  }
+}
 // function changeUserName(req, res, next) {
 
 //   //find de huidige gebruiker in de database en update zijn naam naar de nieuw ingevulde naam
