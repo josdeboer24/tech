@@ -4,7 +4,7 @@ const port = 3000;
 require('dotenv').config();
 const session = require('express-session');
 
-//database configuratie
+//config database
 let collection = null;
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@cluster0-xtp4e.azure.mongodb.net/test?retryWrites=true&w=majority";
@@ -12,7 +12,7 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true
 });
 
-//database connect
+//connecting databases with different branches
 client.connect(function (err, client) {
   if (err) {
     throw err
@@ -40,12 +40,15 @@ app
   .get('/register', register)
   .get('/profileCreation', profileCreation)
   .post('/makeProfile', makeProfile)
+  .get('/matching', matching)
   .get('/profile', profile)
   .get('*', notFound)
 
 let data = {
   title: "Datingapp"
 }
+
+// functions that make the app work
 
 function index(req, res) {
       res.render('index.ejs')
@@ -61,11 +64,22 @@ function profileCreation(req, res) {
     };
 
 
+function matching(req, res) {
+      res.render('matching.ejs')
+    };
 
+
+    //this function reads profile information from the database 
 function profile(req, res) {
+  firstName = profiles.find(firstName),
+  lastName = profiles.find(lastName),
+  gender = profiles.find(gender),
+  age = profiles.find(age),
+  residence = profiles.find(residence),
       res.render('profile.ejs')
     };    
 
+    // this function sends the registration data to the database
 function logInData(req, res, next) {
   collection.insertOne({
     user: req.session.user,
@@ -82,9 +96,10 @@ function logInData(req, res, next) {
   }
 }
 
+//this function adds profile information to the database. this can be read later
 function makeProfile(req, res, next) {
   profiles.insertOne({
-    firstName: req.session.fName,
+    firstName: req.body.fName,
     lastName: req.body.lName,
     gender: req.body.gender,
     age: req.body.age,
@@ -95,49 +110,14 @@ function makeProfile(req, res, next) {
     if (err) {
       next(err)
     } else {
-      res.redirect('/profile')
+      res.redirect('/matching')
     }
   }
 }
 
-// app.get("/quest-1", (req, res) => {
-    
-//   res.render("base/quest-1.ejs", {
-//       data,
-//       accounts
-//   });
-// });
-
-// function changeUserName(req, res, next) {
-
-//   //find de huidige gebruiker in de database en update zijn naam naar de nieuw ingevulde naam
-//   collection.findOneAndUpdate({
-//     user: req.session.user
-//   }, {
-//     $set: {
-//       user: req.body.newName
-//     }
-//   }, done)
-
-//   function done(err, useData) {
-//     //verander de session van de gebruiker samen met het gerenderde data object
-//     req.session.user = req.body.newName;
-//     data.user.user = req.session.user;
-
-//     if (err) {
-//       next(err)
-//     } else {
-//       //render de pagina opnieuw om de nieuwe naam van de gebruiker te tonen
-//       res.render('matches.ejs', {
-//         data
-//       });
-//     }
-//   }
-// }
-
-//404
+//error 404
 function notFound(req, res) {
-  res.status(404).end('Error: 404 : Page not found');
+  res.status(404).end('Oops! Error: 404 : Page not found');
 }
 
-app.listen(port, () => console.log(`app running on port: ${port}`));
+app.listen(port, () => console.log(`app running on port: 3000`));
