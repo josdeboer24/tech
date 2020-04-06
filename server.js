@@ -40,6 +40,7 @@ app
   .get('/register', register)
   .get('/profileCreation', profileCreation)
   .post('/makeProfile', makeProfile)
+  .get('/profile', profile)
   .get('*', notFound)
 
 let data = {
@@ -55,10 +56,15 @@ function register(req, res) {
       res.render('register.ejs')
     };
 
-    function profileCreation(req, res) {
+function profileCreation(req, res) {
       res.render('profileCreation.ejs')
     };
 
+
+
+function profile(req, res) {
+      res.render('profile.ejs')
+    };    
 
 function logInData(req, res, next) {
   collection.insertOne({
@@ -89,10 +95,19 @@ function makeProfile(req, res, next) {
     if (err) {
       next(err)
     } else {
-      res.redirect('/profileCreation')
+      res.redirect('/profile')
     }
   }
 }
+
+// app.get("/quest-1", (req, res) => {
+    
+//   res.render("base/quest-1.ejs", {
+//       data,
+//       accounts
+//   });
+// });
+
 // function changeUserName(req, res, next) {
 
 //   //find de huidige gebruiker in de database en update zijn naam naar de nieuw ingevulde naam
